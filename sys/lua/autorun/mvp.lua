@@ -1,0 +1,90 @@
+local parse = parse
+local msg, msg2 = msg, msg2
+local max = math.max
+local image, image2 = "\174gfx/kgb2d/minute/announce.png", "\174gfx/kgb2d/serverinfo/kgb2d2.png"
+
+sd={} 
+sd.damage, sd.damage2, sd.damage3 = array(32), array(32), array(32)
+
+parse("mp_hudscale 1")
+
+addhook('hit','sd.hit')
+function sd.hit(id,src,wpn,hp)
+	local source, victim = player(src,"team"), player(id,"team")
+	local pd = playerdata[src].Vip
+	if source ~= victim and src ~= 0 and hp ~= 0 then
+		sd.damage[src], sd.damage2[src], sd.damage3[src] = sd.damage[src] + hp, sd.damage2[src] + hp, sd.damage3[src] + hp
+		if pd.Status and pd.SDamage == "On" then
+			sd.show(src)
+			--sd.showtimer[src] = 15
+		end
+	end
+end
+
+function sd.show(id)
+	parse('hudtxt2 '..id..' 0 "©255255255-'..sd.damage3[id]..' HP" 400 200 0 0 10')
+	parse('hudtxtalphafade '..id..' 0 500 0.0')
+	parse('hudtxtmove '..id..' 0 500 400 195')
+
+	timer(550,"clearHud",id)
+end
+
+function clearHud(id)
+	local id = tonumber(id)
+	sd.damage3[id] = 0
+	parse('hudtxtclear '..id)
+end
+
+addhook('spawn','sd.spawn')
+function sd.spawn(id)
+	if playerdata[id].Options.Announcer == "Enabled" then
+		local lastround, total = sd.damage[id], sd.damage2[id]
+		local color, white = player(id,"team") == 1 and "\169255025000" or "\169050150255", "\169255255255"
+		if lastround ~= 0 then
+			local m = image..white.." Your DMG Last Round: ".. color .. lastround .. white .." HP, In Total: ".. color .. total .. white .." HP"
+			msg2(id, m)
+		end
+    end
+	sd.check()
+end
+
+function return_largest_value(t)
+    return math.max(unpack(t))
+end
+
+addhook('endround', 'sd.startround')
+function sd.startround()
+	--mvp = return_largest_value({unpack(sd.damage, 1, 32)}) 
+	mvp = max(unpack(sd.damage))
+
+	if mvp == 0 then 
+		return 
+	end
+	
+	local playerlist=player(0,"table")
+	for _,id in pairs(playerlist) do
+		if mvp == sd.damage[id] then
+			if playerdata[id].Options.Announcer == "Enabled" then
+			local playerdamage = sd.damage[id]
+			local color, white = player(id,"team") == 1 and "\169255025000" or "\169050150255", "\169255255255"
+			local player = player(id, "name")
+			
+			local m = image..white.." Highest Damage by".. image2 .. color .. player .. white .." - DMG: " .. color .. max(unpack(sd.damage)) .. white.." HP"
+			msg(m)
+			end
+		end
+	end
+	--sd.check()
+end
+
+function sd.check()
+	local playerlist=player(0,"table")
+	for _,i in pairs(playerlist) do
+		sd.damage[i] = 0 
+	end
+end
+
+addhook('leave','sd.leave')
+function sd.leave(id)
+sd.damage[id], sd.damage2[id], sd.damage3[id] = 0, 0, 0
+end

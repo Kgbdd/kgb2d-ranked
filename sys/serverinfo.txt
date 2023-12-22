@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<serverinfo>
+<br />
+<image width="400" height="80" color="#ffffff" 
+align = "center" 
+source = "gfx/kgb2d/serverinfo/kgb2d.png">
+</image><br />
+<image width="130" height="32" color="#ffffff"
+ align = "center" 
+source = "gfx/kgb2d/serverinfo/kgb2d2.png">
+</image><br />
+<text size = "14" color="#ffffff" align="left">
+———————————————————————————————————————
+</text>
+<br />
+<text size = "16" color="#e34646" align="left">
+ [X] Don't cheat/hack</text><br />
+<text size = "16" color="#e34646" align="left">
+ [X] Don't spam/flame/flood</text><br />
+<text size = "16" color="#e34646" align="left">
+ [X] Don't insult/harass other players</text><br />
+<text size = "16" color="#3574e6" align="left">
+ [V] Have fun!</text>
+<br />
+<text size = "14" color="#ffffff" align="left">
+———————————————————————————————————————
+</text>
+<br />
+<image width="200" height="60" 
+url="https://discord.com/invite/JhJhQJ36yw" 
+align = "left" 
+source = "gfx/kgb2d/serverinfo/dc.png">
+</image>
+<image width="200" height="60" 
+url="https://steamcommunity.com/groups/kgb2d" 
+align = "left" 
+source = "gfx/kgb2d/serverinfo/steam.png">
+</image><br />
+<text size = "14" color="#ffffff" align="left">
+———————————————————————————————————————
+</text>
+<br />
+<text size = "18" color="#ffffff" align="left">
+ Say !help in chat</text>
+<br />
+<text size = "14" color="#ffffff" align="left">
+———————————————————————————————————————
+</text>
+<br />
+<text size = "20" color="#ffffff" align="center">
+ ABOUT RANKS</text>
+<br />
+<image width="550" height="534" color="#ffffff" 
+align = "center" 
+source = "gfx/kgb2d/serverinfo/ranked.png">
+</image><br />
+<text size = "14" color="#ffffff" align="left"> 
+Exploding bomb gives you 10 Elo Points,
+ Defusing bomb gives you 20 Elo Points.</text>
+<br />
+<text size = "14" color="#ffffff" align="left">
+———————————————————————————————————————
+</text>
+</serverinfo>
