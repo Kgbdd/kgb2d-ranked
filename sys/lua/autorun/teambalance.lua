@@ -50,8 +50,8 @@ function prespawn()
         msg(rearrangeMsg)
 		timer(3000, "sortAndAssign")
 	else
-		local cMessage = image..white.." Win row \169050150255Counter-Terrorists: "..winrow_ct..white.."/"..green..winRoundCount
-		local tMessage = image..white.." Win row \169255025000Terrorists: "..winrow_t..white.."/"..green..winRoundCount
+		local cMessage = image.." \169050150255Counter-Terrorist "..white.."Team Win Row: "..winrow_ct..white.."/"..green..winRoundCount
+		local tMessage = image.." \169255025000Terrorist "..white.."Team Win Row: "..winrow_t..white.."/"..green..winRoundCount
 		local m = (winrow_ct > winrow_t and cMessage or (winrow_t > winrow_ct and tMessage or ""))
 		msg(m)
     end

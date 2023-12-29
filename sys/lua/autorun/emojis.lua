@@ -1,3 +1,6 @@
+local p = pairs
+local sg = string.gmatch
+
 local EMOJIS = {
     ["^cool$"]                		    = "cool",
     ["^[:=8xX]['][-^o]?%($"]            = "crying", -- :'(
@@ -36,12 +39,10 @@ local EMOJIS = {
 function cs2d_emojis_check(id, txt)
 	txt_return = ""
 	flag = false
-    local p = pairs
-    local sg = string.gmatch
     for word in sg(txt, "[^%s]+") do
         for smiley, emoticon in p(EMOJIS) do
 			if word:match(smiley) then
-				txt_return = txt_return .." \174gfx/kgb2d/emojis/"..emoticon..".png"
+				txt_return = txt_return .." \174gfx/kgb2d/emojis/" .. emoticon .. ".png"
 				flag = true
             end
 		end

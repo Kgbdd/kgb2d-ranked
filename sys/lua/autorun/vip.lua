@@ -17,9 +17,9 @@ end
 function showRankIcon(id)
 	local id = tonumber(id)
 	ico = ranks[playerdata[id].Stat.RankLvl].icon
-	userrank[id] = image(ico,0,0,200+id)
-	imagealpha(userrank[id],0.75)
-	imagescale(userrank[id],0.75,0.75)
+	userrank[id] = image(ico, 0, 0, 200+id)
+	imagealpha(userrank[id], 0.75)
+	imagescale(userrank[id], 0.75, 0.75)
 end
 
 function updateRankIcon(id)
@@ -29,9 +29,9 @@ function updateRankIcon(id)
 	end
 
 	ico = ranks[playerdata[id].Stat.RankLvl].icon
-	userrank[id] = image(ico,0,0,200+id)
-	imagealpha(userrank[id],0.75)
-	imagescale(userrank[id],0.75,0.75)
+	userrank[id] = image(ico, 0, 0, 200+id)
+	imagealpha(userrank[id], 0.75)
+	imagescale(userrank[id], 0.75, 0.75)
 end
 
 	
@@ -48,11 +48,11 @@ addhook("hit","_hit")
 function _hit(victim, attacker, wpn, hpdmg)
 	local pd = playerdata[attacker].Vip
 	local atk, vct = player(attacker, "team"), player(victim, "team")
-		if pd.Status and atk ~= vct and attacker ~= 0 and hpdmg ~= 0 then
-		if pd.Hs == "On" then
+		if pd.Status and atk ~= vct and attacker ~= 0 and hpdmg ~= 0 and pd.Hs == "On" then
+		--if pd.Hs == "On" then
 			local sound = "kgb2d/vip/hit" .. random(1, 5) .. ".ogg"
 			parse("sv_sound2 " .. attacker .. " " .. sound)
-		end
+		--end
 	end
 end
 

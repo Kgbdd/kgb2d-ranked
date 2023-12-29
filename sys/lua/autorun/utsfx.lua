@@ -1,5 +1,5 @@
 local parse, msg, msg2 = parse, msg, msg2
-local fb = "fun/firstblood.wav"
+local firstblood = "fun/firstblood.wav"
 local humiliation = "fun/humiliation.wav"
 local godlike = "fun/godlike.wav"
 
@@ -34,7 +34,7 @@ sample.ut.level[killer]=level
 		sample.ut.fblood=1
 		for _,id2 in pairs(playerlist) do
 			if playerdata[id2] and playerdata[id2].Options.Utsfx == "Enabled" then
-				parse("sv_sound2 "..id2.." "..fb)
+				parse("sv_sound2 "..id2.." "..firstblood)
 				msg2(id2,"\169200000000"..player(killer,"name").." sheds FIRST BLOOD!@C")
 			end
 		end

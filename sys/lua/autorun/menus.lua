@@ -18,9 +18,9 @@ end
 function checkVip(id)
 	local rank = checkrank(id)
 	local player = player(id,"name")
-	if rank <= 50 and rank ~= 0 then
+	if playerdata[id] and rank <= 50 and rank ~= 0 then
 		playerdata[id].Vip.Status = true
-		print(player.." is in top50")
+		print(color[4]..player.." is in top50, gained VIP")
 	else 
 		playerdata[id].Vip.Status = false
 	end
@@ -60,7 +60,6 @@ function _options(id,title,button)
 end
 
 function change(id, opt, key, value, value2)
-	id = tonumber(id)
 	parse("sv_sound2 "..id.." "..sound)
 	local data = (opt == 1) and playerdata[id].Options or playerdata[id].Vip
 	data[key] = (data[key] == value) and value2 or value

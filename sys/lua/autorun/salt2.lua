@@ -100,15 +100,17 @@ function endSave()
 end
 
 function load_player(id)
-    id = tonumber(id)	
-	if isPlayerLoggedInSteam(id) and isPlayerLoggedInUSGN(id) then --steami ve usgnsi varsa = USGN
-        print("[LOAD TRY1] via usgn")
+    id = tonumber(id)
+    local loggedInUSGN, loggedInSteam = isPlayerLoggedInUSGN(id), isPlayerLoggedInSteam(id)
+    
+	if loggedInSteam and loggedInUSGN then --steami ve usgnsi varsa = USGN
+        print(color[8].."[LOAD TRY1] via usgn")
 		load_pre(id,"usgn")
-	elseif isPlayerLoggedInSteam(id) and not isPlayerLoggedInUSGN(id) then -- steam var ama usgn yok = STEAM
-        print("[LOAD TRY2] via steam")
+	elseif loggedInSteam and not loggedInUSGN then -- steam var ama usgn yok = STEAM
+        print(color[8].."[LOAD TRY2] via steam")
 		load_pre(id,"steamid")
-	elseif not isPlayerLoggedInSteam(id) and isPlayerLoggedInUSGN(id) then --steami yok ama usgnsi varsa = USGN
-        print("[LOAD TRY3] via usgn")
+	elseif not loggedInSteam and loggedInUSGN then --steami yok ama usgnsi varsa = USGN
+        print(color[8].."[LOAD TRY3] via usgn")
 		load_pre(id,"usgn")
 	else 
 		msg2(id,"You're not logged in with USGN or Steam.@C")
@@ -116,7 +118,7 @@ function load_player(id)
         playerdatas(id)
 	end
 end
-
+    
 function load_pre(id,opt)
     id = tonumber(id)
     local opt = tostring(opt)
@@ -124,9 +126,9 @@ function load_pre(id,opt)
     if data then
         playerdata[id] = data
         local text = (opt == "usgn") and "usgn id" or "steam id"
-        msg2(id,"\169155255155Your save has been loaded successfully!@C")
-        msg2(id,"\169155255155Your data save will be based on your "..string.upper(text).."@C")
-        print("[LOAD SUCCESS] Data found and loaded via "..text)
+        msg2(id,color[1].."Your save has been loaded \169155255155successfully!@C")
+        msg2(id,color[1].."Your data save will be based on your \169155255155"..string.upper(text).."@C")
+        print(color[4].."[LOAD SUCCESS] Data found and loaded via "..text)
     else 
         msg2(id,"\169155255155No data found. Your data save will be based on your "..string.upper(opt).."@C")
         playerdatas(id)
@@ -139,13 +141,13 @@ function save_player(id)
         return
     else
     local usgn, steam, name = player(id, "usgn"), player(id, "steamid"), player(id,"name")
-    
     local path = isPlayerLoggedInUSGN(id) and "usgn" or "steamid"
+
         if playerdata[id] then
             salt.save(playerdata[id], "sys/lua/database/" .. path .. "/" .. (path == "usgn" and usgn or steam) .. ".lua")
-            print("[SAVE SUCCESS] saved "..name.." via ".. (path == "usgn" and usgn or steam))
+            print(color[4].."[SAVE SUCCESS] saved "..name.." via ".. (path == "usgn" and usgn or steam))
         else
-            print("[SAVE FAILURE] no table found for "..name)
+            print(color[2].."[SAVE FAILURE] no table found for "..name)
         end
     end
 end

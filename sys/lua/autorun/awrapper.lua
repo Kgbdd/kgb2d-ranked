@@ -1,4 +1,3 @@
-local parse = parse
 local pairs = pairs
 
 function isPlayerLoggedIn(id)

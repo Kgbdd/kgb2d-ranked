@@ -50,7 +50,7 @@ function join2(id)
 		k2[id][key] = player(id, value)
 	end
 
-	msj2(id,color[9].."Welcome to "..color[2]..""..game("sv_name").."@C")
+	msj2(id,color[9].."Welcome to "..color[4]..""..game("sv_name").."@C")
 	
 		local pd = playerdata[id].Player.Level
 		local name = player(id,"name")

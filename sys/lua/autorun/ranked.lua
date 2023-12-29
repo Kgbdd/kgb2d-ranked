@@ -35,12 +35,6 @@ function _rjoin(id)
     if isPlayerLoggedIn(id) then
         msg2(id, "Your rank: " .. rankInfo.color .. rankInfo.rank .. " (" .. rankInfo.tag .. ")")
         msg2(id, "Elo point: " .. data.Points .. ", Elo point per kill: " .. rankInfo.ppk)
-
-        if rankInfo.tag ~= "Global" then
-            local nextRank = ranks[level + 1]
-            msg2(id, "Next rank at point: " .. nextRank.color .. nextRank.elostart)
-            msg2(id, "Next rank: " .. nextRank.color .. nextRank.rank)
-        end
     end
 end
 
@@ -50,11 +44,9 @@ function _rkill(killer,victim,weapon)
     local rk, rv = ranks[pk.RankLvl], ranks[pv.RankLvl]
     local playerlist=player(0,"table")
     --Oldurene puan artisi
-    --pk.Points = pk.Points + (weapon == 50 and 20 or rk.ppk) 
     pk.Points = pk.Points + ((weapon == 50 and #playerlist > 4) and 20 or rk.ppk)
     --Olenden puan dususu
     if pv.Points ~= 0 then
-    --pv.Points = pv.Points - (weapon == 50 and 20 or rv.pointloss)
     pv.Points = pv.Points - ((weapon == 50 and #playerlist > 4) and 10 or rv.pointloss)
     end
 
@@ -90,9 +82,11 @@ local function updatePoints(id, pointsToAdd)
     local playerCount = #player(0, "table")
     local playerData = playerdata[id].Stat.Points
 
-    if playerCount > 3 then
+    --[[if playerCount > 3 then
         playerData = playerData + pointsToAdd
-    end
+    end]]--
+
+    playerData = playerData + (player(0, "table") > 3 and pointsToAdd or 0)
 end
 
 addhook("bombexplode","_bombexplode")
