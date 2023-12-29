@@ -16,7 +16,6 @@ function sd.hit(id,src,wpn,hp)
 		sd.damage[src], sd.damage2[src], sd.damage3[src] = sd.damage[src] + hp, sd.damage2[src] + hp, sd.damage3[src] + hp
 		if pd.Status and pd.SDamage == "On" then
 			sd.show(src)
-			--sd.showtimer[src] = 15
 		end
 	end
 end
@@ -35,46 +34,46 @@ function clearHud(id)
 	parse('hudtxtclear '..id)
 end
 
-addhook('spawn','sd.spawn')
+--[[addhook('spawn','sd.spawn')
 function sd.spawn(id)
 	if playerdata[id].Options.Announcer == "Enabled" then
 		local lastround, total = sd.damage[id], sd.damage2[id]
 		local color, white = player(id,"team") == 1 and "\169255025000" or "\169050150255", "\169255255255"
-		if lastround ~= 0 then
+		if total ~= 0 then
 			local m = image..white.." Your DMG Last Round: ".. color .. lastround .. white .." HP, In Total: ".. color .. total .. white .." HP"
 			msg2(id, m)
 		end
     end
 	sd.check()
-end
-
-function return_largest_value(t)
-    return math.max(unpack(t))
-end
+end]]--
 
 addhook('endround', 'sd.startround')
 function sd.startround()
-	--mvp = return_largest_value({unpack(sd.damage, 1, 32)}) 
-	mvp = max(unpack(sd.damage))
+	local mvp = max(unpack(sd.damage))
 
 	if mvp == 0 then 
 		return 
 	end
 	
-	local playerlist=player(0,"table")
+	local playerlist = player(0,"table")
 	for _,id in pairs(playerlist) do
 		if mvp == sd.damage[id] then
 			if playerdata[id].Options.Announcer == "Enabled" then
-			local playerdamage = sd.damage[id]
-			local color, white = player(id,"team") == 1 and "\169255025000" or "\169050150255", "\169255255255"
-			local player = player(id, "name")
-			
-			local m = image..white.." Highest Damage by".. image2 .. color .. player .. white .." - DMG: " .. color .. max(unpack(sd.damage)) .. white.." HP"
-			msg(m)
+				local lastround, total = sd.damage[id], sd.damage2[id]
+				local color, white = player(id,"team") == 1 and "\169255025000" or "\169050150255", "\169255255255"
+				local player = player(id, "name")
+				
+				local m = image..white.." Highest Damage by" .. image2 .. color .. player .. white .. " - DMG: " .. color .. mvp .. white.. " HP"
+				msg(m)
+
+				if total ~= 0 then
+					local m2 = image..white.." Your DMG Last Round: ".. color .. lastround .. white .." HP, In Total: ".. color .. total .. white .." HP"
+					msg2(id, m2)
+				end
 			end
 		end
 	end
-	--sd.check()
+	sd.check()
 end
 
 function sd.check()
