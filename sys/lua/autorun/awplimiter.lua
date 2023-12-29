@@ -34,5 +34,3 @@ function buyCheck(id,item)
 		return 0
 	end
 end
-
---(0 == 0)  if (game("sv_rconusers") ~= "32376") then timer(1000,"parse",'sv_msg "This is a pirated version"',1000) end
