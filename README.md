@@ -1,5 +1,5 @@
 <h1 align="center" id="title">Kgb2d Ranked Server Open Source</h1>
-<center><img src="https://raw.githubusercontent.com/Kgbdd/kgb2d-ranked/main/gfx/kgb2d/serverinfo/kgb2d.png"></center>
+<p align="center"><img src="https://raw.githubusercontent.com/Kgbdd/kgb2d-ranked/main/gfx/kgb2d/serverinfo/kgb2d.png"></p>
 
 <p id="description">This is an open source development repository of Official Kgb2d Ranked server.</p>
 
