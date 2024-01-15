@@ -69,8 +69,7 @@ function join3(id)
     checkVip(id)
 end
 
-function playerdatas(id)
-    id = tonumber(id)
+function defaultData(id)
     print("No data found and creating default tables.")
 	playerdata[id] = {
 		Player = {Level = 0, Tag = false, Mute = false, MuteReason = ""},
@@ -89,6 +88,7 @@ end
 addhook("leave","disconnect_server")
 function disconnect_server(id)
 	save_player(id)
+    playerdata[id] = nil
 end
 
 addhook("endround","endSave")
@@ -100,54 +100,51 @@ function endSave()
 end
 
 function load_player(id)
-    id = tonumber(id)
     local loggedInUSGN, loggedInSteam = isPlayerLoggedInUSGN(id), isPlayerLoggedInSteam(id)
     
 	if loggedInSteam and loggedInUSGN then --steami ve usgnsi varsa = USGN
-        print(color[8].."[LOAD TRY1] via usgn")
+        print(color.cs2dyellow.."[LOAD TRY1] via usgn")
 		load_pre(id,"usgn")
 	elseif loggedInSteam and not loggedInUSGN then -- steam var ama usgn yok = STEAM
-        print(color[8].."[LOAD TRY2] via steam")
+        print(color.cs2dyellow.."[LOAD TRY2] via steam")
 		load_pre(id,"steamid")
 	elseif not loggedInSteam and loggedInUSGN then --steami yok ama usgnsi varsa = USGN
-        print(color[8].."[LOAD TRY3] via usgn")
+        print(color.cs2dyellow.."[LOAD TRY3] via usgn")
 		load_pre(id,"usgn")
 	else 
-		msg2(id,"You're not logged in with USGN or Steam.@C")
-		msg2(id,"Your data will not be saved!@C")
-        playerdatas(id)
+        defaultData(id)
 	end
 end
     
 function load_pre(id,opt)
-    id = tonumber(id)
-    local opt = tostring(opt)
+    local name = player(id,"name")
     local data = salt.load("sys/lua/database/"..opt.."/"..player(id,""..opt.."")..".lua")
     if data then
         playerdata[id] = data
-        local text = (opt == "usgn") and "usgn id" or "steam id"
-        msg2(id,color[1].."Your save has been loaded \169155255155successfully!@C")
-        msg2(id,color[1].."Your data save will be based on your \169155255155"..string.upper(text).."@C")
-        print(color[4].."[LOAD SUCCESS] Data found and loaded via "..text)
+        msg2(id,color.white.."Your save has been loaded "..color.success.."successfully!@C")
+        msg2(id,color.white.."Your data save will be based on your "..color.success..""..string.upper(opt).."@C")
+
+        print(color.cgreen.."[LOAD SUCCESS] "..name.." Data found and loaded via "..string.upper(opt))
+        print("[LOAD] "..name.." ranklvl:"..playerdata[id].Player.Level.." point:"..playerdata[id].Stat.Points)
     else 
-        msg2(id,"\169155255155No data found. Your data save will be based on your "..string.upper(opt).."@C")
-        playerdatas(id)
+        msg2(id,color.red.."No data found. "..color.white.."Your data save will be based on your "..color.success..""..string.upper(opt).."@C")
+        defaultData(id)
     end
 end
 
 function save_player(id)
-    id = tonumber(id)
     if not isPlayerLoggedInSteam(id) and not isPlayerLoggedInUSGN(id) then
         return
     else
-    local usgn, steam, name = player(id, "usgn"), player(id, "steamid"), player(id,"name")
-    local path = isPlayerLoggedInUSGN(id) and "usgn" or "steamid"
+        local usgn, steam, name = player(id, "usgn"), player(id, "steamid"), player(id,"name")
+        local path = isPlayerLoggedInUSGN(id) and "usgn" or "steamid"
 
         if playerdata[id] then
             salt.save(playerdata[id], "sys/lua/database/" .. path .. "/" .. (path == "usgn" and usgn or steam) .. ".lua")
-            print(color[4].."[SAVE SUCCESS] saved "..name.." via ".. (path == "usgn" and usgn or steam))
+            print(color.cgreen.."[SAVE SUCCESS] saved "..name.." via ".. (path == "usgn" and usgn or steam))
+            print("[SAVE] "..name.." ranklvl:"..playerdata[id].Player.Level.." point:"..playerdata[id].Stat.Points)
         else
-            print(color[2].."[SAVE FAILURE] no table found for "..name)
+            print(color.red.."[SAVE FAILURE] no table found for "..name)
         end
     end
 end
@@ -159,8 +156,10 @@ function load_options()
         local option = serveroptions.Fow and 3 or 0
         parse("sv_fow "..option)
         parse("mp_freezetime "..serveroptions.Freeze)
-        print(color[4].."Server Options Loaded Successfully!")
+
+        print(color.green.."Server Options Loaded Successfully!")
     else
-        print(color[2].."Error: Server Options couldn't loaded!")
+        print(color.red.."Error: Server Options couldn't loaded!")
     end
-end;load_options()
+end
+load_options()

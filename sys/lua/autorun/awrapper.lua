@@ -1,4 +1,5 @@
 local pairs = pairs
+local player = player
 
 function isPlayerLoggedIn(id)
 	return player(id,"steamid") ~= "0" or player(id,"usgn") ~= 0
@@ -24,6 +25,10 @@ function isSpec(id)
 	return player(id,"team") == 0
 end
 
+function isAlive(id)
+    return player(id,"health") > 0
+end
+
 function Round(num, dp)
     --[[
     examples
@@ -35,6 +40,24 @@ function Round(num, dp)
     return math.floor(num * mult + 0.5)/mult
 end
 
+function SecondsToClock(seconds)
+    local seconds = tonumber(seconds)
+    hours = string.format("%02.f", math.floor(seconds/3600));
+    mins = string.format("%02.f", math.floor(seconds/60 - (hours*60)));
+    secs = string.format("%02.f", math.floor(seconds - hours*3600 - mins *60));
+    return hours, mins, secs
+end
+
+function secondsToHMS(seconds)
+    -- Calculate the number of hours, minutes, and seconds
+    local days = math.floor(seconds / 86400)
+    local hours = math.floor(seconds / 3600)
+    local minutes = math.floor((seconds % 3600) / 60)
+  
+    -- Return the result as a formatted string
+    return string.format("%2dd %2dh %02dm", days, hours, minutes)
+  end
+
 function table_contains(tbl, x)
     found = false
     for _, v in pairs(tbl) do
@@ -45,6 +68,12 @@ function table_contains(tbl, x)
     return found
 end
 
+function table_removekey(table, key)
+    local element = table[key]
+    table[key] = nil
+    return element
+ end
+
 function array(length,mode)
 	local array = {}
 	if mode == nil then 
@@ -53,4 +82,14 @@ function array(length,mode)
 		array[i] = mode	
 	end
 	return array
+end
+
+function math.average(...)
+    local sum = 0
+    local i = 0
+    while (i < #arg) do
+        i = i + 1
+        sum = sum + arg[i]
+    end
+    return sum/#arg
 end

@@ -6,7 +6,8 @@ local sort = table.sort
 local winRoundCount = 4
 
 local image = "\174gfx/kgb2d/minute/announce.png"
-local white, green = "\169255255255", "\169000255000"
+local white, green = color.white, color.green
+local ctColor, ttColor = color.ct, color.t
 
 function sortAndAssign()
     local ctPlayers = player(0, "team1")
@@ -15,7 +16,7 @@ function sortAndAssign()
 	--local players = player(0, "team1")
 	
 	for _, id in ipairs(ttPlayers) do
-		insert(ctPlayers,id)
+		insert(ctPlayers, id)
 	end
 
     for _, id in ipairs(ctPlayers) do
@@ -44,15 +45,15 @@ end
 addhook("startround_prespawn", "prespawn")
 function prespawn()
     local winrow_ct, winrow_t = game("winrow_ct"), game("winrow_t")
-    local stronger = winrow_ct > winrow_t and "\169050150255Counter-Terrorist" or "\169255025000Terrorist"
+    local stronger = winrow_ct > winrow_t and color.ct.."Counter-Terrorist" or color.t.."Terrorist"
     local rearrangeMsg = white.."The "..stronger..white.." Team is too stronger. Teams will be rearranged.@C"
     if winrow_ct == winRoundCount or winrow_t == winRoundCount then
         msg(rearrangeMsg)
 		timer(3000, "sortAndAssign")
 	else
-		local cMessage = image.." \169050150255Counter-Terrorist "..white.."Team Win Row: "..winrow_ct..white.."/"..green..winRoundCount
-		local tMessage = image.." \169255025000Terrorist "..white.."Team Win Row: "..winrow_t..white.."/"..green..winRoundCount
-		local m = (winrow_ct > winrow_t and cMessage or (winrow_t > winrow_ct and tMessage or ""))
-		msg(m)
+		local ctMessage = image..color.ct.." Counter-Terrorist "..white.."Team Win Row: "..winrow_ct.."/"..winRoundCount
+		local ttMessage = image..color.t.." Terrorist "..white.."Team Win Row: "..winrow_t.."/"..winRoundCount
+		local m = (winrow_ct > winrow_t and ctMessage or (winrow_t > winrow_ct and ttMessage or nil))
+        if m then msg(m) end
     end
 end

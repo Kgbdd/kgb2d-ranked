@@ -1,12 +1,15 @@
 local parse = parse
+parse("mp_hudscale 1")
 local msg, msg2 = msg, msg2
 local max = math.max
 local image, image2 = "\174gfx/kgb2d/minute/announce.png", "\174gfx/kgb2d/serverinfo/kgb2d2.png"
+local ttColor, ctColor, white = color.t, color.ct, color.white
 
-sd={} 
-sd.damage, sd.damage2, sd.damage3 = array(32), array(32), array(32)
-
-parse("mp_hudscale 1")
+sd={
+	damage = array(32),
+	damage2 = array(32),
+	damage3 = array(32)
+} 
 
 addhook('hit','sd.hit')
 function sd.hit(id,src,wpn,hp)
@@ -34,21 +37,8 @@ function clearHud(id)
 	parse('hudtxtclear '..id)
 end
 
---[[addhook('spawn','sd.spawn')
-function sd.spawn(id)
-	if playerdata[id].Options.Announcer == "Enabled" then
-		local lastround, total = sd.damage[id], sd.damage2[id]
-		local color, white = player(id,"team") == 1 and "\169255025000" or "\169050150255", "\169255255255"
-		if total ~= 0 then
-			local m = image..white.." Your DMG Last Round: ".. color .. lastround .. white .." HP, In Total: ".. color .. total .. white .." HP"
-			msg2(id, m)
-		end
-    end
-	sd.check()
-end]]--
-
-addhook('endround', 'sd.startround')
-function sd.startround()
+addhook('endround', 'sd.endround')
+function sd.endround()
 	local mvp = max(unpack(sd.damage))
 
 	if mvp == 0 then 
@@ -60,11 +50,12 @@ function sd.startround()
 		if mvp == sd.damage[id] then
 			if playerdata[id].Options.Announcer == "Enabled" then
 				local lastround, total = sd.damage[id], sd.damage2[id]
-				local color, white = player(id,"team") == 1 and "\169255025000" or "\169050150255", "\169255255255"
+				local color = player(id,"team") == 1 and ttColor or ctColor
 				local player = player(id, "name")
-				
-				local m = image..white.." Highest Damage by" .. image2 .. color .. player .. white .. " - DMG: " .. color .. mvp .. white.. " HP"
+				local m = white.."___________________"
+				local m2 = image..white.." Highest Damage by" .. image2 .. color .. player .. white .. " - DMG: " .. color .. mvp .. white.. " HP"
 				msg(m)
+				msg(m2)
 
 				if total ~= 0 then
 					local m2 = image..white.." Your DMG Last Round: ".. color .. lastround .. white .." HP, In Total: ".. color .. total .. white .." HP"
@@ -73,10 +64,10 @@ function sd.startround()
 			end
 		end
 	end
-	sd.check()
+	sd.setNull()
 end
 
-function sd.check()
+function sd.setNull()
 	local playerlist=player(0,"table")
 	for _,i in pairs(playerlist) do
 		sd.damage[i] = 0 

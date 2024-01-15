@@ -5,13 +5,20 @@ local pairs = pairs
 local HUDImage = {}
 local img = "gfx/backgrounds/1.png"
 
+addhook("clientdata", "checkfile")
+function checkfile(id, mode, data1, data2)
+	if (mode == 4) and (checksumfile(img) ~= data2) then
+		parse('kick '..id..' "You are using a modified file!"')
+    end
+end
+
 addhook("join","onlyloggedJoin",3)
 function onlyloggedJoin(id)
-	id = tonumber(id)
+	reqcld(id, 4, img)
 	if not isPlayerLoggedIn(id) then
 		HUDImage[id] = image(img, 0, 0, 2, id)
 		imagescale(HUDImage[id], 1920, 1080)
-		local message = "©255255255You need to be logged into a USGN or Steam Account!"
+		local message = color.red.."You need to be logged into a USGN or Steam Account!"
         parse('hudtxt2 ' .. id .. ' 1 "' .. message .. '" 200 100 0 0 20')
 	end
 end

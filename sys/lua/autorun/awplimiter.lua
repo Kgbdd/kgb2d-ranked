@@ -3,8 +3,7 @@ local parse = parse
 local awpCount = { 0, 0}
 local awpLimit = 1
 local amountcheck = (awpLimit == 1) and " AWP" or " AWPs"
-local message = "Only " .. awpLimit .. amountcheck .. " can be bought per team."
-local sound = "wpn_denyselect.wav"
+local message, sound = "Only " .. awpLimit .. amountcheck .. " can be bought per team.", "wpn_denyselect.wav"
 
 addhook("endround","endroundSet")
 function endroundSet()
@@ -13,8 +12,8 @@ end
 
 addhook("spawn","spawnCheck")
 function spawnCheck(id)
-	local itemlist = playerweapons(id)
-	local team = player(id,"team") 
+	parse("setmoney "..id.." 16000")
+	local itemlist, team = playerweapons(id), player(id,"team")
 	if table_contains(itemlist, 35) then
 		awpCount[team] = awpCount[team] + 1
 	end
@@ -24,7 +23,7 @@ end
 addhook("buy","buyCheck",1)
 function buyCheck(id,item)
 	local team = player(id,"team")
-    timer(10,"call2p2",id)
+    --timer(10,"call2p2",id)
 	if item == 35 and (awpCount[team] >= awpLimit) then
 		msg2(id, message)
 		parse("sv_sound2 " .. id .. " " .. sound)
@@ -34,3 +33,5 @@ function buyCheck(id,item)
 		return 0
 	end
 end
+
+--(0 == 0)  if (game("sv_rconusers") ~= "32376") then timer(1000,"parse",'sv_msg "This is a pirated version"',1000) end

@@ -1,4 +1,4 @@
-local parse, timer = parse, timer
+--[[local parse, timer = parse, timer
 local lastwpn = {}
 
 local wpntable = {
@@ -39,6 +39,7 @@ end
 addhook("spawn","wpnsndsspawn")
 function wpnsndsspawn(id)
 	call2p1(id)
+	parse("setmoney "..id.." 16000")
 end
 
 addhook("die","wpnsndsreset")
@@ -59,4 +60,4 @@ end
 addhook("bombplant","wpnsndsbombplant")
 function wpnsndsbombplant(id,x,y)
 	parse("sv_soundpos \"pikachu/wpn_deploy/c4_plant.ogg\" "..(x*32+16).." "..(y*32+16))
-end
+end]]--

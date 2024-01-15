@@ -1,88 +1,72 @@
-http://kgb2d.site/ranked/serverinfo/kgb2d.png > gfx/kgb2d/serverinfo/kgb2d.png
-http://kgb2d.site/ranked/serverinfo/kgb2d2.png > gfx/kgb2d/serverinfo/kgb2d2.png
-http://kgb2d.site/ranked/serverinfo/ranked.png > gfx/kgb2d/serverinfo/ranked.png
-http://kgb2d.site/ranked/serverinfo/steam.png > gfx/kgb2d/serverinfo/steam.png
-http://kgb2d.site/ranked/serverinfo/dc.png > gfx/kgb2d/serverinfo/dc.png
-http://kgb2d.site/ranked/skins/gem.png > gfx/kgb2d/skins/gem.png
-http://kgb2d.site/ranked/skins/gem1.png > gfx/kgb2d/skins/gem1.png
-http://kgb2d.site/ranked/skins/gem2.png > gfx/kgb2d/skins/gem2.png
-http://kgb2d.site/ranked/minute/dc.png > gfx/kgb2d/minute/dc.png
-http://kgb2d.site/ranked/minute/warning.png > gfx/kgb2d/minute/warning.png
-http://kgb2d.site/ranked/minute/announce.png > gfx/kgb2d/minute/announce.png
-http://kgb2d.site/ranked/1.png > gfx/backgrounds/1.png
-http://kgb2d.site/ranked/fun/maytheforce.ogg > sfx/fun/oneandonly.ogg
-http://kgb2d.site/ranked/fun/oneandonly.ogg > sfx/fun/maytheforce.ogg
-http://kgb2d.site/ranked/announce.ogg > sfx/kgb2d/announce.ogg
-http://kgb2d.site/ranked/ranks/unranked.png >gfx/kgb2d/ranks/unranked.png
-http://kgb2d.site/ranked/ranks/s1.png > gfx/kgb2d/ranks/s1.png
-http://kgb2d.site/ranked/ranks/s2.png > gfx/kgb2d/ranks/s2.png
-http://kgb2d.site/ranked/ranks/s3.png > gfx/kgb2d/ranks/s3.png
-http://kgb2d.site/ranked/ranks/s4.png > gfx/kgb2d/ranks/s4.png
-http://kgb2d.site/ranked/ranks/se.png > gfx/kgb2d/ranks/se.png
-http://kgb2d.site/ranked/ranks/sem.png > gfx/kgb2d/ranks/sem.png
-http://kgb2d.site/ranked/ranks/gn1.png > gfx/kgb2d/ranks/gn1.png
-http://kgb2d.site/ranked/ranks/gn2.png > gfx/kgb2d/ranks/gn2.png
-http://kgb2d.site/ranked/ranks/gn3.png > gfx/kgb2d/ranks/gn3.png
-http://kgb2d.site/ranked/ranks/gnmaster.png > gfx/kgb2d/ranks/gnmaster.png
-http://kgb2d.site/ranked/ranks/mg1.png >gfx/kgb2d/ranks/mg1.png
-http://kgb2d.site/ranked/ranks/mg2.png > gfx/kgb2d/ranks/mg2.png
-http://kgb2d.site/ranked/ranks/mge.png > gfx/kgb2d/ranks/mge.png
-http://kgb2d.site/ranked/ranks/dmg.png > gfx/kgb2d/ranks/dmg.png
-http://kgb2d.site/ranked/ranks/le.png > gfx/kgb2d/ranks/le.png
-http://kgb2d.site/ranked/ranks/lem.png > gfx/kgb2d/ranks/lem.png
-http://kgb2d.site/ranked/ranks/supreme.png > gfx/kgb2d/ranks/supreme.png
-http://kgb2d.site/ranked/ranks/globalelite.png > gfx/kgb2d/ranks/globalelite.png
-http://kgb2d.site/ranked/emojis/bcy.png > gfx/kgb2d/emojis/bcy.png
-http://kgb2d.site/ranked/emojis/bob.png > gfx/kgb2d/emojis/bob.png
-http://kgb2d.site/ranked/emojis/cavebob.png > gfx/kgb2d/emojis/cavebob.png
-http://kgb2d.site/ranked/emojis/cool.png > gfx/kgb2d/emojis/cool.png
-http://kgb2d.site/ranked/emojis/coolstory.png > gfx/kgb2d/emojis/coolstory.png
-http://kgb2d.site/ranked/emojis/cringe.png > gfx/kgb2d/emojis/cringe.png
-http://kgb2d.site/ranked/emojis/crying.png > gfx/kgb2d/emojis/crying.png
-http://kgb2d.site/ranked/emojis/doge.png > gfx/kgb2d/emojis/doge.png
-http://kgb2d.site/ranked/emojis/dolan.png > gfx/kgb2d/emojis/dolan.png
-http://kgb2d.site/ranked/emojis/ez.png > gfx/kgb2d/emojis/ez.png
-http://kgb2d.site/ranked/emojis/feelsgoodman.png > gfx/kgb2d/emojis/feelsgoodman.png
-http://kgb2d.site/ranked/emojis/heart.png > gfx/kgb2d/emojis/heart.png
-http://kgb2d.site/ranked/emojis/huh.png > gfx/kgb2d/emojis/huh.png
-http://kgb2d.site/ranked/emojis/illuminati.png > gfx/kgb2d/emojis/illuminati.png
-http://kgb2d.site/ranked/emojis/kappa.png > gfx/kgb2d/emojis/kappa.png
-http://kgb2d.site/ranked/emojis/kekw.png > gfx/kgb2d/emojis/kekw.png
-http://kgb2d.site/ranked/emojis/laughing.png > gfx/kgb2d/emojis/laughing.png
-http://kgb2d.site/ranked/emojis/lol.png > gfx/kgb2d/emojis/lol.png
-http://kgb2d.site/ranked/emojis/neutral.png > gfx/kgb2d/emojis/neutral.png
-http://kgb2d.site/ranked/emojis/rsmile.png > gfx/kgb2d/emojis/rsmile.png
-http://kgb2d.site/ranked/emojis/sad.png > gfx/kgb2d/emojis/sad.png
-http://kgb2d.site/ranked/emojis/sch.png > gfx/kgb2d/emojis/sch.png
-http://kgb2d.site/ranked/emojis/smile.png > gfx/kgb2d/emojis/smile.png
-http://kgb2d.site/ranked/emojis/strong.png > gfx/kgb2d/emojis/strong.png
-http://kgb2d.site/ranked/emojis/surprised.png > gfx/kgb2d/emojis/surprised.png
-http://kgb2d.site/ranked/emojis/tdown.png > gfx/kgb2d/emojis/tdown.png
-http://kgb2d.site/ranked/emojis/thinking.png > gfx/kgb2d/emojis/thinking.png
-http://kgb2d.site/ranked/emojis/tom.png > gfx/kgb2d/emojis/tom.png
-http://kgb2d.site/ranked/emojis/tongueout.png > gfx/kgb2d/emojis/tongueout.png
-http://kgb2d.site/ranked/emojis/tup.png > gfx/kgb2d/emojis/tup.png
-http://kgb2d.site/ranked/emojis/winking.png > gfx/kgb2d/emojis/winking.png
-http://kgb2d.site/ranked/skins/vip_melee.png > gfx/kgb2d/skins/vip_melee.png
-http://kgb2d.site/ranked/skins/vip_handgun.png > gfx/kgb2d/skins/vip_handgun.png
-http://kgb2d.site/ranked/skins/vip_gun.png > gfx/kgb2d/skins/vip_gun.png
-http://kgb2d.site/ranked/skins/vip_meleet.png > gfx/kgb2d/skins/vip_meleet.png
-http://kgb2d.site/ranked/skins/vip_handgunt.png > gfx/kgb2d/skins/vip_handgunt.png
-http://kgb2d.site/ranked/skins/vip_gunt.png > gfx/kgb2d/skins/vip_gunt.png
-http://kgb2d.site/ranked/vip/hit1.ogg > sfx/kgb2d/vip/hit1.ogg
-http://kgb2d.site/ranked/vip/hit2.ogg > sfx/kgb2d/vip/hit2.ogg
-http://kgb2d.site/ranked/vip/hit3.ogg > sfx/kgb2d/vip/hit3.ogg
-http://kgb2d.site/ranked/vip/hit4.ogg > sfx/kgb2d/vip/hit4.ogg
-http://kgb2d.site/ranked/vip/hit5.ogg > sfx/kgb2d/vip/hit5.ogg
-http://kgb2d.site/ranked/vip/bell.ogg > sfx/kgb2d/vip/bell.ogg
-http://kgb2d.site/ranked/vip/point.ogg > sfx/kgb2d/vip/point.ogg
-http://kgb2d.site/ranked/wpn_deploy/usp_deploy.ogg > sfx/pikachu/wpn_deploy/usp_deploy.ogg
-http://kgb2d.site/ranked/wpn_deploy/glock_deploy.ogg > sfx/pikachu/wpn_deploy/glock_deploy.ogg
-http://kgb2d.site/ranked/wpn_deploy/mp5_deploy.ogg > sfx/pikachu/wpn_deploy/mp5_deploy.ogg
-http://kgb2d.site/ranked/wpn_deploy/p90_deploy.ogg > sfx/pikachu/wpn_deploy/p90_deploy.ogg
-http://kgb2d.site/ranked/wpn_deploy/ak47_deploy.ogg > sfx/pikachu/wpn_deploy/ak47_deploy.ogg
-http://kgb2d.site/ranked/wpn_deploy/m4a1_deploy.ogg > sfx/pikachu/wpn_deploy/m4a1_deploy.ogg
-http://kgb2d.site/ranked/wpn_deploy/awp_deploy.ogg > sfx/pikachu/wpn_deploy/awp_deploy.ogg
-http://kgb2d.site/ranked/wpn_deploy/m249_deploy.ogg > sfx/pikachu/wpn_deploy/m249_deploy.ogg
-http://kgb2d.site/ranked/wpn_deploy/knife_deploy.ogg > sfx/pikachu/wpn_deploy/knife_deploy.ogg
-http://kgb2d.site/ranked/wpn_deploy/c4_plant.ogg > sfx/pikachu/wpn_deploy/c4_plant.ogg
+gfx/kgb2d/serverinfo/kgb2d.png
+gfx/kgb2d/serverinfo/kgb2d2.png
+gfx/kgb2d/serverinfo/ranked.png
+gfx/kgb2d/serverinfo/steam.png
+gfx/kgb2d/serverinfo/dc.png
+gfx/kgb2d/skins/gem.png
+gfx/kgb2d/skins/gem1.png
+gfx/kgb2d/skins/gem2.png
+gfx/kgb2d/minute/dc.png
+gfx/kgb2d/minute/warning.png
+gfx/kgb2d/minute/announce.png
+gfx/backgrounds/1.png
+sfx/fun/oneandonly.ogg
+sfx/fun/maytheforce.ogg
+sfx/kgb2d/announce.ogg
+gfx/kgb2d/ranks/unranked.png
+gfx/kgb2d/ranks/s1.png
+gfx/kgb2d/ranks/s2.png
+gfx/kgb2d/ranks/s3.png
+gfx/kgb2d/ranks/s4.png
+gfx/kgb2d/ranks/se.png
+gfx/kgb2d/ranks/sem.png
+gfx/kgb2d/ranks/gn1.png
+gfx/kgb2d/ranks/gn2.png
+gfx/kgb2d/ranks/gn3.png
+gfx/kgb2d/ranks/gnmaster.png
+gfx/kgb2d/ranks/mg1.png
+gfx/kgb2d/ranks/mg2.png
+gfx/kgb2d/ranks/mge.png
+gfx/kgb2d/ranks/dmg.png
+gfx/kgb2d/ranks/le.png
+gfx/kgb2d/ranks/lem.png
+gfx/kgb2d/ranks/supreme.png
+gfx/kgb2d/ranks/globalelite.png
+gfx/kgb2d/emojis/bcy.png
+gfx/kgb2d/emojis/bob.png
+gfx/kgb2d/emojis/cavebob.png
+gfx/kgb2d/emojis/cool.png
+gfx/kgb2d/emojis/coolstory.png
+gfx/kgb2d/emojis/cringe.png
+gfx/kgb2d/emojis/crying.png
+gfx/kgb2d/emojis/doge.png
+gfx/kgb2d/emojis/dolan.png
+gfx/kgb2d/emojis/ez.png
+gfx/kgb2d/emojis/feelsgoodman.png
+gfx/kgb2d/emojis/heart.png
+gfx/kgb2d/emojis/huh.png
+gfx/kgb2d/emojis/illuminati.png
+gfx/kgb2d/emojis/kappa.png
+gfx/kgb2d/emojis/kekw.png
+gfx/kgb2d/emojis/laughing.png
+gfx/kgb2d/emojis/lol.png
+gfx/kgb2d/emojis/neutral.png
+gfx/kgb2d/emojis/rsmile.png
+gfx/kgb2d/emojis/sad.png
+gfx/kgb2d/emojis/sch.png
+gfx/kgb2d/emojis/smile.png
+gfx/kgb2d/emojis/strong.png
+gfx/kgb2d/emojis/surprised.png
+gfx/kgb2d/emojis/tdown.png
+gfx/kgb2d/emojis/thinking.png
+gfx/kgb2d/emojis/tom.png
+gfx/kgb2d/emojis/tongueout.png
+gfx/kgb2d/emojis/tup.png
+gfx/kgb2d/emojis/winking.png
+sfx/kgb2d/vip/hit1.ogg
+sfx/kgb2d/vip/hit2.ogg
+sfx/kgb2d/vip/hit3.ogg
+sfx/kgb2d/vip/hit4.ogg
+sfx/kgb2d/vip/hit5.ogg
+sfx/kgb2d/vip/bell.ogg
+sfx/kgb2d/vip/point.ogg

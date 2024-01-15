@@ -9,7 +9,7 @@ sample.ut={
     fblood = 0
 }
 
-levels = {}
+local levels = {}
 levels[2] = {"173255047","made a Doublekill!","fun/doublekill.wav"}
 levels[3] = {"026255525","made a Multikill!","fun/multikill.wav"}
 levels[4] = {"000206209","made a Killingspree!@C","fun/killingspree.wav"}
@@ -35,7 +35,8 @@ sample.ut.level[killer]=level
 		for _,id2 in pairs(playerlist) do
 			if playerdata[id2] and playerdata[id2].Options.Utsfx == "Enabled" then
 				parse("sv_sound2 "..id2.." "..firstblood)
-				msg2(id2,"\169200000000"..player(killer,"name").." sheds FIRST BLOOD!@C")
+				local msg = "\169200000000"..player(killer,"name").." sheds FIRST BLOOD!@C"
+				msg2(id2, msg)
 			end
 		end
 	end
@@ -43,7 +44,8 @@ sample.ut.level[killer]=level
 		for _,id2 in pairs(playerlist) do
 			if playerdata[id2] and playerdata[id2].Options.Utsfx == "Enabled" then
 				parse("sv_sound2 "..id2.." "..humiliation)
-				msg2(id2,"\169255069000"..player(killer,"name").." humiliated "..player(victim,"name").."!")
+				local msg = "\169255069000"..player(killer,"name").." humiliated "..player(victim,"name").."!"
+				msg2(id2, msg)
 			end
 		end
 	else
@@ -51,7 +53,8 @@ sample.ut.level[killer]=level
 		for _, id2 in pairs(playerlist) do
 			if playerdata[id2] and playerdata[id2].Options.Utsfx == "Enabled" and levelData then
 				parse("sv_sound2 " .. id2 .. " \"" .. levelData[3] .. "\"")
-				msg2(id2, "\169" .. levelData[1] .. "" .. player(killer, "name") .. " " .. levelData[2])
+				local msg = "\169" .. levelData[1] .. player(killer, "name") .. " " .. levelData[2]
+				msg2(id2, msg)
 			end
 		end
 	end

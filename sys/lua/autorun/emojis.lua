@@ -2,7 +2,7 @@ local p = pairs
 local sg = string.gmatch
 
 local EMOJIS = {
-    ["^cool$"]                		    = "cool",
+    ["^Cool$"]                		    = "cool",
     ["^[:=8xX]['][-^o]?%($"]            = "crying", -- :'(
     ["^<3$"]                            = "heart", -- <3
     ["^[:=8][-^o]?[D]$"]                = "laughing", -- :D
@@ -19,7 +19,6 @@ local EMOJIS = {
     ["^hmm$"]                		    = "thinking",
     ["^[:=8xX][-^o]?[pPbq]$"]           = "tongueout", -- :P
     ["^[;][-^o]?[)%]D]$"]               = "winking", -- ;)
-    ["^[:=8][-^o]?[sS]$"]               = "woozyface", -- :S
     ["^bcy$"]                			= "bcy",
     ["^bob$"]                			= "bob",
     ["^cavebob$"]                		= "cavebob",

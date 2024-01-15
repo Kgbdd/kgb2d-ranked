@@ -1,4 +1,4 @@
-local parse, msj, msj2 = parse, msg, msg2
+local parse, msj, msj2, timer = parse, msg, msg2, timer
 local find = string.find
 
 k2 = {}
@@ -6,28 +6,31 @@ k2staff = {}
 secs = array(32,0)
 
 color = {
-	"\169255255255", -- 1 chat (white)
-	"\169255000000", -- 2 ADM/GM (red)
-	"\169255255102", -- 3 Headmod (yellow)
-	"\169000220000", -- 4 Moderation Team (green)
-	"\169000128255", -- 5 Trainee (blue)
+	white = "\169255255255", -- 1 (white)
+	red = "\169255000000", -- 2 (red)
+	cyellow = "\169255255102", -- 3  (yellow)
+	cgreen = "\169000220000", -- 4 (green)
+	cblue = "\169000128255", -- 5 (blue)
+	cs2dyellow = "\169255220000", -- 8 CS2D (yellow)
+	green = "\169000255000", -- 11 green
+	blue = "\169000000255", -- 12 blue
+	lightgrey ="\169220220220", -- 13 light grey
+	pm = "\169163229222", -- 14 PM - light blue
+	t = "\169255025000", -- 15 T
+	t2 = "\169150110100",
+	ct = "\169050150255",  -- 16 CT
+	ct2 = "\169110130150",
+	success = "\169155255155",
 	"\169255153255", -- 6 Vip
 	"\169121247003", -- 7 Member
-	"\169255220000", -- 8 CS2D (yellow)
-	"\169255255255", -- 9 white
-	"\169255000000", -- 10 red
-	"\169000255000", -- 11 green
-	"\169000000255", -- 12 blue
-	"\169220220220", -- 13 light grey
-	"\169163229222", -- 14 PM - light blue
-	"\169255025000", -- 15 T
-	"\169050150255"  -- 16 CT
+	"\169255153255", -- 6 Vip
+	"\169121247003", -- 7 Member
 }
 
 levelData = {
 	[1] = {tag = "MVP", color = "\169255153255", icon = ""},
 	[2] = {tag = "Trainee", color = "\169000128255", icon = ""},
-	[3] = {tag = "M", color = "\169000220000", icon = ""},
+	[3] = {tag = "MOD", color = "\169000220000", icon = ""},
 	[4] = {tag = "HMOD", color = "\169255255102", icon = ""},
 	[5] = {tag = "ADM", color = "\169255000000", icon = ""},
 	[6] = {tag = "GM", color = "\169255000000", icon = ""}
@@ -38,32 +41,40 @@ addhook("say","_say2")
 addhook("sayteam","sayteam2")
 
 function join2(id)
-	k2[id] = {}
+local pd = playerdata[id]
+local pdLevel = pd.Player.Level
+local name = player(id,"name")
 
-	if playerdata[id].Player.Level > 0 then
-		playerLevel = playerdata[id].Player.Level
+	if pd and pdLevel > 0 then
+		playerLevel = pdLevel
 		k2staff[id] = levelData[playerLevel]
 	end
 
-	data = {name = "name", usgn = "usgn", steamid = "steamid", ip = "ip"}
+	--[[data = {name = "name", usgn = "usgn", steamid = "steamid", ip = "ip"}
 	for key, value in pairs(data) do
 		k2[id][key] = player(id, value)
+	end]]--
+
+	k2[id] = {
+		name = player(id, "name"),
+		usgn = player(id, "usgn"),
+		steamid = player(id, "steamid"),
+		ip = player(id, "ip")
+	}
+
+	if isPlayerLoggedIn(id) then
+	msj2(id,color.white.."Welcome to "..color.green..""..game("sv_name").."@C")
 	end
 
-	msj2(id,color[9].."Welcome to "..color[4]..""..game("sv_name").."@C")
-	
-		local pd = playerdata[id].Player.Level
-		local name = player(id,"name")
-
-		if (pd < 2) and (find(name, "Kgb2d") or find(name, "kgb2d")) then
-		timer(4000,"checkname",id)
-		end
+	if (pdLevel < 2) and (find(name, "Kgb2d") or find(name, "kgb2d") or find(name, "Player")) then
+	timer(1000,"checkname",id)
+	end
 end
 		
 function checkname(id)
 id=tonumber(id)
-   msj(color[10]..""..k2[id].name.." "..color[9].."got auto-kicked.")
-   parse('kick '..id..' "'..color[10]..''..k2[id].name..', Please remove the tag from your nickname, only Kgb2d staff members can use the tags."')
+   msj(color.red..k2[id].name..color.white.." got auto-kicked.")
+   parse('kick '..id..' "'..color.red..k2[id].name..', please set a different nickname!"')
 end
 
 local errors = {
@@ -96,8 +107,8 @@ local errors = {
 
 function error(id, txt, error)
     if errors[error] then
-        msj2(id, color[10] .. "Command: " .. txt)
-        msj2(id, color[10] .. "Error: " .. errors[error])
+        msj2(id, color.red .. "Command: " .. txt)
+        msj2(id, color.red .. "Error: " .. errors[error])
     end
 end
 
@@ -133,15 +144,19 @@ function banz(id,txt,error)
     local msg = messages[error]
     if msg then
         for i = 1, #msg do
-            msj2(id, color[10] .. (i == 1 and "Error: " or "") .. msg[i] .. "@C")
+            msj2(id, color.red .. (i == 1 and "Error: " or "") .. msg[i] .. "@C")
         end
     end
 end
 
 function _say2(id,txt)
-if (playerdata[id].Player.Mute == true) then
+if playerdata[id].Player.Mute == true and secs[id] == 0 then
+	msj2(id,"You're MUTED, please contact staff via Discord!@C")
+	msj2(id,"Mute reason: "..playerdata[id].Player.MuteReason.."@C")
+	secs[id]=5
 	return 1
 end
+
 if txt:sub(1,5)=="!kick" then
 	if playerdata[id].Player.Level >= 2 then
 		local t, r = tonumber(txt:sub(7,8)), txt:sub(9)
@@ -150,7 +165,7 @@ if txt:sub(1,5)=="!kick" then
 		if r == "" then error(id,txt,12) return 1 end
 		if not player(t,"exists") then error(id,txt,2) return 1 end
 		parse('kick '..t..' "'..r)
-		msj(k2staff[id].color..k2[id].name..""..color[8].." kicked "..color[10]..""..k2[t].name.." (Reason: "..color[9]..""..r..""..color[10]..")")
+		msj(k2staff[id].color..k2[id].name..""..color.cs2dyellow.." kicked "..color.red..""..k2[t].name.." (Reason: "..r..")")
 		--return 1
 	--else
 		--return 1
@@ -171,19 +186,19 @@ if txt:sub(1,4)=="!ban" then
 		--parse('banip '..player(s,"ip")..' 0 "'..r)
 		--os.execute("iptables -A INPUT -s "..ip.." -j ACCEPT")
 		os.execute("iptables -A INPUT -s "..player(s,"ip").." -j DROP")
-		msj(color[9]..k2[id].name..color[8].." banned(IP) "..color[10]..k2[s].name.." (Reason: "..color[9]..r..color[10]..")")
+		msj(k2staff[id].color..k2[id].name..color.cs2dyellow.." banned(IP) "..color.red..k2[s].name.." (Reason: "..color.white..r..color.red..")")
 		return 1 
 		end
 		if tonumber(t) == 2 then --banusgn
 			if player(s,"usgn") == 0 then banz(id,txt,4) return 1 end
 		parse('banusgn '..player(s,"usgn")..' 0 "'..r)
-		msj(color[9]..k2[id].name..color[8].." banned (USGN) "..color[10]..k2[s].name.." (Reason: "..color[9]..r..color[10]..")")
+		msj(k2staff[id].color..k2[id].name..color.cs2dyellow.." banned (USGN) "..color.red..k2[s].name.." (Reason: "..color.white..r..color.red..")")
 		return 1 
 		end
 		if tonumber(t) == 3 then --bansteam
 			if player(s,"steamname") == "" then banz(id,txt,5) return 1 end
 		parse('bansteam '..player(s,"steamid")..' 0 "'..r)
-		msj(color[9]..k2[id].name..color[8].." banned (Steam) "..color[10]..k2[s].name.." (Reason: "..color[9]..r..color[10]..")")
+		msj(k2staff[id].color..k2[id].name..color.cs2dyellow.." banned (Steam) "..color.red..k2[s].name.." (Reason: "..color.white..r..color.red..")")
 		return 1 
 		end
 	--else
@@ -192,45 +207,28 @@ if txt:sub(1,4)=="!ban" then
 	return 1
 end
 
-if txt:sub(1,5)=="!mute" then --done
-	if playerdata[id].Player.Level >= 4 then
-		local t, reason = tonumber(txt:sub(7,8)), txt:sub(9)
-		if tonumber(t) == nil then error(id,txt,13) return 1 end
-		if reason == "" then error(id,txt,12) return 1 end
-		if not player(t,"exists") then error(id,txt,2) return 1 end
-		if player(id,"name") == player(t,"name") then error(id,txt,18) return 1 end
-		if playerdata[t].Player.Level >= 3 then banz(id,txt,6) return 1 end
-		if (playerdata[t].Player.Mute == false) then
-			playerdata[t].Player.Mute = true
-			playerdata[t].Player.MuteReason = reason
-			msj(k2staff[id].color..""..k2[id].name..""..color[8].." muted "..color[10]..k2[t].name.." (Reason: "..color[9]..reason..color[10]..")")
-			msj2(t,color[10].."You have been muted by "..color[9]..""..k2[id].name.."@C")
-			msj2(t,color[10].."Reason: "..color[9]..""..reason.."@C")
-			--return 1
-		else
-			playerdata[t].Player.Mute = false
-			playerdata[t].Player.MuteReason = reason
-			msj(color[9]..""..k2[id].name..color[8].." unmuted "..color[10]..k2[t].name.." (Quote: "..color[9]..reason..color[10]..")")
-			msj2(t,color[9]..""..k2[id].name.." "..color[11].."unmuted you.@C")
-			msj2(t,color[10].."Quote: "..color[9]..reason.."@C")
-			--return 1
-		end
-	--else
-		--return 1
+if txt:sub(1,5)=="!mute" and playerdata[id].Player.Level >= 4 then
+	local t, reason = tonumber(txt:sub(7,8)), txt:sub(9)
+	if not t or reason == "" or not player(t, "exists") or player(id, "name") == player(t, "name") or playerdata[t].Player.Level >= 3 then
+		return 1
 	end
-	return 1
+	playerdata[t].Player.Mute = not playerdata[t].Player.Mute
+    playerdata[t].Player.MuteReason = reason
+    local action = playerdata[t].Player.Mute and "muted" or "unmuted"
+    local quote = playerdata[t].Player.Mute and "Reason" or "Quote"
+    msj(k2staff[id].color .. k2[id].name .. color.cs2dyellow .. " " .. action .. " " .. color.red .. k2[t].name .. " (" .. quote .. ": " .. color.white .. reason .. color.red .. ")")
+    msj2(t, color.red .. "You have been " .. action .. " by " .. color.white .. k2[id].name .. "@C")
+    msj2(t, color.red .. quote .. ": " .. color.white .. reason .. "@C")
+    return 1
 end
 
-if txt:sub(1, 5) == "!role" then
-	if playerdata[id].Player.Level == 6 then
+if txt:sub(1, 5) == "!role" and playerdata[id].Player.Level == 6 then
 	local pid, role = tonumber(txt:sub(7,8)), tonumber(txt:sub(9))
-	if tonumber(pid) == nil or tonumber(role) == nil then return 1 end
-	if playerdata[pid].Player.Level == 6 then return 1 end
+	if tonumber(pid) == nil or tonumber(role) == nil or playerdata[pid].Player.Level == 6 then return 1 end
 		k2staff[pid] = levelData[role]
 		playerdata[pid].Player.Level = role
-		msj2(id,"You gave "..k2[pid].name.." role level = "..k2staff[pid].tag.."@C")
-		msj2(pid,k2[id].name.." gave you role level = "..k2staff[pid].tag.."@C")
-	end
+		msj2(id,color.white.."You gave "..k2staff[id].color..k2[pid].name..color.white.." role level = "..k2staff[pid].color..k2staff[pid].tag.."@C")
+		msj2(pid,k2staff[id].color .. k2[id].name .. color.white .. " gave you role level = " .. k2staff[pid].color .. k2staff[pid].tag .. "@C")
 	return 1
 end
 
@@ -239,7 +237,7 @@ if txt:sub(1, 8) == "!restart" then
 		local t = tonumber(txt:sub(10, 11))
 		if not t then t = 1 end
 		parse("sv_restart " .. t)
-		msj(k2staff[id].color .. k2[id].name .. color[8] .. ' used ' .. color[9] .. 'sv_restart ' .. color[8] .. 'command.')
+		msj(k2staff[id].color .. k2[id].name .. color.cs2dyellow .. ' used ' .. color.white .. 'sv_restart ' .. color.cs2dyellow .. 'command.')
 		--return 1
 	end
 	return 1
@@ -253,7 +251,7 @@ if txt:sub(1,5)=="!kill" then --done
 		if playerdata[t].Player.Level >= 3 then banz(id,txt,6) return 1 end
 		if player(t,"health") == 0 then error(id,txt,19) return 1 end
 		parse("killplayer "..t)
-		msj(k2staff[id].color..k2[id].name..color[8].." command-killed "..color[10]..k2[t].name)
+		msj(k2staff[id].color..k2[id].name..color.cs2dyellow.." command-killed "..color.red..k2[t].name)
 		--return 1
 	--else
 		--return 1
@@ -261,21 +259,16 @@ if txt:sub(1,5)=="!kill" then --done
 	return 1
 end
 
-if txt:sub(1,5)=="!spec" then --done
-	if playerdata[id].Player.Level >= 3 then
-		local t = tonumber(txt:sub(7,8))
-		if tonumber(t) == nil then error(id,txt,13) return 1 end
-		if not player(t,"exists") then error(id,txt,2) return 1 end
-		if player(t,"team") == 0 then error(id,txt,20) return 1 end
-		local roleColor = isCT(t) and color[16] or isT(t) and color[15] or ""
-		local name1 = player(id,"name")
-		local name2 = player(t,"name")
-		parse("makespec "..t)
-		msj(k2staff[id].color..name1..color[8].." sent "..roleColor..name2.." "..color[8].."to spectators.")
-		--return 1
-	--else
-		--return 1
+if txt:sub(1,5)=="!spec" and playerdata[id].Player.Level >= 3 then
+	local t = tonumber(txt:sub(7,8))
+	if not t or not player(t, "exists") or player(t, "team") == 0 then
+		error(id, txt, not t and 13 or (player(t, "team") == 0 and 20 or 2))
+		return 1
 	end
+	local teamColor = isCT(t) and color.ct or isT(t) and color.t or ""
+	local name1, name2 = player(id, "name"), player(t, "name")
+	parse("makespec " .. t)
+	msj(k2staff[id].color .. name1 .. color.cs2dyellow .. " sent " .. teamColor .. name2 .. color.cs2dyellow .. " to spectators.")
 	return 1
 end
 
@@ -284,10 +277,8 @@ if txt:sub(1,5)=="!slap" then --done
 		local t = tonumber(txt:sub(7,8))
 		if not tonumber(t) then error(id,txt,13) return 1 end
 		if not player(t,"exists") then error(id,txt,2) return 1 end
-		local name1 = player(id,"name")
-		local name2 = player(t,"name")
+		local name1, name2 = player(id,"name"), player(t,"name")
 		print(name1.." slapped "..name2)
-		--msj(k2staff[id].color..k2[id].name..color[8].." slapped "..roleColor..name)
 		parse("slap "..t)
 		--return 1
 	--else
@@ -301,7 +292,7 @@ if txt:sub(1,6)=="!unban" then --done
 		local mask = txt:sub(8)
 		if tonumber(mask) == nil then error(id,txt,16) return 1 end
 		parse("unban "..mask)
-		msj2(id,color[1].."Info:"..color[2].." Successfully unbanned "..color[4]..""..mask)
+		msj2(id,color.white.."Info:"..color.success.." Successfully unbanned "..color.white..""..mask)
 		--return 1
 	--else
 		--return 1
@@ -340,7 +331,7 @@ if txt:sub(1,6) == "!equip" then
 	local function equipItem(target)
 		parse("equip " .. target .. " " .. item)
 		parse("setweapon " .. target .. " " .. item)
-		msj2(target, k2staff[id].color .. k2[id].name .. color[1] .. " gave you item " .. color[11] .. "#" .. item)
+		msj2(target, k2staff[id].color .. k2[id].name .. color.white .. " gave you item " .. color.green .. "#" .. item)
 	end
 
 	if t == 0 then
@@ -361,10 +352,10 @@ if txt:sub(1,6)=="!check" then --done
 		if not tonumber(t) then error(id,txt,13) return 1 end
 		if not player(t,"exists") then error(id,txt,2) return 1 end
 		if playerdata[id].Player.Level < playerdata[t].Player.Level then banz(id,txt,6) return 1 end
-		msj2(id,color[9].."Name: "..k2[t].name)
-		msj2(id,color[9].."USGN: "..k2[t].usgn)
-		msj2(id,color[9].."Steam: "..k2[t].steamid)
-		msj2(id,color[9].."IP: "..k2[t].ip)
+		msj2(id,color.white.."Name: "..k2[t].name)
+		msj2(id,color.white.."USGN: "..k2[t].usgn)
+		msj2(id,color.white.."Steam: "..k2[t].steamid)
+		msj2(id,color.white.."IP: "..k2[t].ip)
 		return 1
 	end
 	return 1 
@@ -373,8 +364,8 @@ end
 if txt == "!color" then
 	if playerdata[id].Player.Level >= 1 then
 		playerdata[id].Player.Tag = not playerdata[id].Player.Tag
-		local status = playerdata[id].Player.Tag and (color[11].."ON") or (color[10].."OFF")
-		msj2(id, color[1].."Chat Color: "..status.."@C")
+		local status = playerdata[id].Player.Tag and (color.green.."ON") or (color.red.."OFF")
+		msj2(id, color.white.."Chat Color: "..status.."@C")
 		return 1
 	end
 	return 1
@@ -409,7 +400,7 @@ if txt:sub(1,5)=="!rcon" then
 		local cmd = txt:sub(7)
 		if cmd == "" then return 1 end
 		parse(cmd)
-		msj2(id,color[11].."Successfully parsed "..color[8]..""..cmd)
+		msj2(id,color.green.."Successfully parsed "..color.cs2dyellow..""..cmd)
 		return 1
 	end
 	return 1
@@ -419,7 +410,7 @@ if txt:sub(1,4)=="!map" then
 	if playerdata[id].Player.Level >= 5 then
 		local nmap = txt:sub(6)
 		if nmap == "" then error(id,txt,14) return 1 end
-		msj(k2staff[id].color..""..k2staff[id].tag.." "..color[1]..""..k2[id].name.." changed "..color[10]..""..tostring(map("name")).." "..color[1].."to "..color[11]..""..nmap)
+		msj(k2staff[id].color..""..k2staff[id].tag.." "..color.white..""..k2[id].name.." changed "..color.red..""..tostring(map("name")).." "..color.white.."to "..color.green..""..nmap)
 		timer(5000,"parse","map "..nmap)
 		return 1
 	end
@@ -429,7 +420,7 @@ end
 if txt=="!reload" then
 	if playerdata[id].Player.Level >= 4 then
 		local map = map("name")
-		msj(k2staff[id].color..k2staff[id].tag.." "..color[1]..k2[id].name.." "..color[8].."reloaded the map.")
+		msj(k2staff[id].color..k2staff[id].tag.." "..color.white..k2[id].name.." "..color.cs2dyellow.."reloaded the map.")
 		timer(5000,"parse","map "..map)
 		return 1
 	end
@@ -445,9 +436,9 @@ if txt:sub(1, 1) == "@" then
 	local receiverOpt = playerdata[t].Options.Pm 
 	if receiverOpt == "Disabled" then error(id, txt, 25) return 1 end
     local senderName, receiverName = player(id,"name"), player(t,"name")
-	local receiverColor, senderColor = isCT(t) and color[16] or isT(t) and color[15] or "", isCT(id) and color[16] or isT(id) and color[15] or ""
-    local sender = color[9].."[PM] Sent "..receiverColor..receiverName..color[9].." [ID:"..color[11]..t..color[9].."]: "..color[14]..message
-	local receiver = color[9].."[PM] "..senderColor..senderName..color[9].." [ID:"..color[11]..id..color[9].."] sent: "..color[14]..message
+	local receiverColor, senderColor = isCT(t) and color.ct or isT(t) and color.t or "", isCT(id) and color.ct or isT(id) and color.t or ""
+    local sender = color.white.."[PM] Sent "..receiverColor..receiverName..color.white.." [ID:"..color.cgreen..t..color.white.."]: "..color.cs2dyellow..message
+	local receiver = color.white.."[PM] "..senderColor..senderName..color.white.." [ID:"..color.cgreen..id..color.white.."] sent: "..color.cs2dyellow..message
     msj2(id, sender)
     msj2(t, receiver)
 	if playerdata[t].Options.Announcer == "Enabled" then
@@ -463,7 +454,7 @@ if txt=="!resetscore" or txt=="!rs" or txt=="!RS" or txt=="!reset" then
 		parse("setscore "..id.." 0")
 		parse("setassists "..id.." 0")
 		parse("setdeaths "..id.." 0")
-		msj2(id,color[11].."Info: "..color[9].."You have nullified your score.@C")
+		msj2(id,color.cgreen.."Info: "..color.white.."You have nullified your score.@C")
 	end
 	return 1
 end
@@ -508,7 +499,7 @@ end
 if txt=="!rknife" then
 	if player(id,"health") == 0 then error(id,txt,21) return 1 end
 	parse("strip "..id.." 50")
-	local msg = color[11].."Info: "..color[9].."Your knife has been removed!@C"
+	local msg = color.cgreen.."Info: "..color.white.."Your knife has been removed!@C"
 	msj2(id,msg)
 	return 1
 end
@@ -526,20 +517,30 @@ function cchat(id, txt)
     local pd, rankData = playerdata[id].Player, ranks[playerdata[id].Stat.RankLvl]
 	local name = player(id,"name")
 
-	if string.lower(txt) == "rank" then return 0 end
+	if string.lower(txt) == "rank" and secs[id] == 0 then 
+		secs[id] = 5
+		local point, level, r = playerdata[id].Stat.Points, playerdata[id].Stat.RankLvl, ranks[playerdata[id].Stat.RankLvl]
+		local nextRankTxt, nextRankAtPoint = r.tag ~= "Global" and ranks[level+1].rank or "none", r.tag ~= "Global" and ranks[level+1].elostart or "none"
+		local final, total = Round(returnStats(id,"killsperdeath"), 2), stats(0,"count") + steamstats("0","count")
+		local playTime = returnStats(id,"secs")
+		local playTimeFinal = secondsToHMS(playTime)
+        menu(id, "Rank Menu@b,Current Rank|"..r.rank.." | "..point.." | Earn "..r.ppk.." | Loss "..r.pointloss..",Next Rank|"..nextRankTxt.." | "..nextRankAtPoint..",Rank|"..checkrank(id).." of "..total..",Frags|"..returnStats(id,"frags")..",Deaths|"..returnStats(id,"deaths")..",KPD|"..final..",Assists|"..returnStats(id,"assists")..",MVP|"..returnStats(id,"mvp")..",Time Played|"..playTimeFinal)
+
+		return 1 
+	end
     if pd.Level ~= 0 and pd.Tag then
-        msj(k2staff[id].color.."["..k2staff[id].tag.."] "..rankData.color.."["..rankData.tag.."] "..color[1]..name..":"..color[1]..cs2d_emojis_check(id, txt))
+        msj(k2staff[id].color.."["..k2staff[id].tag.."] "..rankData.color.."["..rankData.tag.."] "..color.white..name..":"..color.white..cs2d_emojis_check(id, txt))
         return 1
 	else
 		if secs[id] == 0 and isPlayerLoggedIn(id) then
-			local roleColor = isCT(id) and color[16] or isT(id) and color[15] or ""
+			local roleColor = isCT(id) and color.ct or isT(id) and color.t or ""
 			local tagPrefix = isSpec(id) and "" or rankData.color.."["..rankData.tag.."] "
 			local status = player(id,"health") ~= 0 and "" or " *DEAD*"
 			local teamIcons = {"\174gfx/kgb2d/skins/gem1.png ", "\174gfx/kgb2d/skins/gem2.png ", ""}
 			local icon = isEligible(id) and teamIcons[player(id, "team")] or ""
 
 			secs[id] = 2
-			msj(icon..tagPrefix..roleColor..name..""..color[1]..status..":"..cs2d_emojis_check(id, txt).." ")
+			msj(icon..tagPrefix..roleColor..name..""..color.white..status..":"..cs2d_emojis_check(id, txt).." ")
 			return 1
 		else
 			return 1

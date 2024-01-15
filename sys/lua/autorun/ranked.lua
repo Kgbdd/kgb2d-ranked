@@ -1,4 +1,4 @@
-local parse, player, msg2 = parse, player, msg2
+local parse, player, msg2, pairs = parse, player, msg2, pairs
 local sound = "kgb2d/vip/point.ogg"
 
 ranks = {
@@ -26,59 +26,47 @@ ranks = {
     [18] = {rank = "Global Elite", tag = "Global", elostart = 10000, elofinish = 10000, ppk = 7, pointloss = 6, color = "\169255086078", icon = "gfx/kgb2d/ranks/globalelite.png"}
 }
 
-addhook("join","_rjoin",1) --2.
-function _rjoin(id)
-    local data = playerdata[id].Stat
-    local level = data.RankLvl
-    local rankInfo = ranks[level]
-    
-    if isPlayerLoggedIn(id) then
-        msg2(id, "Your rank: " .. rankInfo.color .. rankInfo.rank .. " (" .. rankInfo.tag .. ")")
-        msg2(id, "Elo point: " .. data.Points .. ", Elo point per kill: " .. rankInfo.ppk)
-    end
-end
-
 addhook("kill","_rkill")
 function _rkill(killer,victim,weapon)
-    local pk, pv = playerdata[killer].Stat, playerdata[victim].Stat
-    local rk, rv = ranks[pk.RankLvl], ranks[pv.RankLvl]
+    local playerKiller, playerVictim = playerdata[killer].Stat, playerdata[victim].Stat
+    local killerRankLvl, victimRankLvl = ranks[playerKiller.RankLvl], ranks[playerVictim.RankLvl]
     local playerlist=player(0,"table")
     --Oldurene puan artisi
-    pk.Points = pk.Points + ((weapon == 50 and #playerlist > 4) and 20 or rk.ppk)
+    playerKiller.Points = playerKiller.Points + ((weapon == 50 and #playerlist > 4) and 20 or killerRankLvl.ppk)
     --Olenden puan dususu
-    if pv.Points ~= 0 then
-    pv.Points = pv.Points - ((weapon == 50 and #playerlist > 4) and 10 or rv.pointloss)
+    if playerVictim.Points ~= 0 or playerVictim.Points >= 5 then
+    playerVictim.Points = playerVictim.Points - ((weapon == 50 and #playerlist > 4) and 10 or victimRankLvl.pointloss)
     end
 
-    if pk.Points % 500 >= 0 and pk.Points % 500 <= 9 then
+    if playerKiller.Points % 500 >= 0 and playerKiller.Points % 500 <= 9 then
         for _,id2 in pairs(playerlist) do
             if playerdata[id2].Options.Announcer == "Enabled" then
             local teamColor = player(killer, "team") == 2 and "\169114137218" or "\169255058036"
             local gemIcon = player(killer, "team") == 2 and "\174gfx/kgb2d/skins/gem2.png" or "\174gfx/kgb2d/skins/gem1.png"
-            local message = teamColor .. player(killer, "name") .. " \169180180180has just reached: " .. teamColor .. pk.Points .. " \169180180180points."
+            local message = teamColor .. player(killer, "name") .. " \169180180180has just reached: " .. teamColor .. playerKiller.Points .. " \169180180180points."
             msg2(id2,message)
             parse("sv_sound2 "..id2.." "..sound)
             end
         end
     end
     --puanimiz mevcut rankin bitis elo puanindan buyuk veya esitse rank atla
-    if pk.Points >= rk.elofinish then
-        pk.RankLvl = pk.RankLvl + 1
+    if playerKiller.Points >= killerRankLvl.elofinish then
+        playerKiller.RankLvl = playerKiller.RankLvl + 1
         updateRankIcon(killer)
-        local msg = "You just got promoted to " .. rk.color .. ranks[pk.RankLvl].rank .. " \nPoints: " .. rk.color .. pk.Points .. "@C"
+        local msg = "You just got promoted to " .. killerRankLvl.color .. killerRankLvl.rank .. " \nPoints: " .. killerRankLvl.color .. playerKiller.Points .. "@C"
         msg2(killer, msg)
         parse("sv_sound2 "..killer.." "..sound)
     end
     --puanimiz mevcut rankin baslangic elo puanindan kucukse ve puanimiz 0a esit degilse rank dusur
-    if pv.Points < rv.elostart and pv.Points ~= 0 then
-        pv.RankLvl = pv.RankLvl - 1
+    if playerVictim.Points < victimRankLvl.elostart and playerVictim.Points ~= 0 then
+        playerVictim.RankLvl = playerVictim.RankLvl - 1
         updateRankIcon(victim)
-        local msg = "You just got demoted to " .. rv.color .. ranks[pv.RankLvl].rank .. " \nPoints: " .. rv.color .. pv.Points .. "@C"
+        local msg = "You just got demoted to " .. victimRankLvl.color .. victimRankLvl.rank .. " \nPoints: " .. victimRankLvl.color .. playerVictim.Points .. "@C"
         msg2(victim, msg)
     end
 end
 
-local function updatePoints(id, pointsToAdd)
+local function updatePoints(id, playerLimit, pointsToAdd)
     local playerCount = #player(0, "table")
     local playerData = playerdata[id].Stat.Points
 
@@ -86,15 +74,15 @@ local function updatePoints(id, pointsToAdd)
         playerData = playerData + pointsToAdd
     end]]--
 
-    playerData = playerData + (player(0, "table") > 3 and pointsToAdd or 0)
+    playerData = playerData + (playerCount > playerLimit and pointsToAdd or 0)
 end
 
 addhook("bombexplode","_bombexplode")
 function _bombexplode(id)
-    updatePoints(id, 10)
+    updatePoints(id, 3, 10)
 end
 
 addhook("bombdefuse","_bombdefuse")
 function _bombdefuse(id)
-    updatePoints(id, 20)
+    updatePoints(id, 3, 20)
 end
