@@ -24,3 +24,14 @@ sys/servertransfer.lst
 ```
 sys/server.cfg
 ```
+
+<h2>🛠️ Iptables Config:</h2>
+
+```
+sudo iptables -A INPUT -p udp -m length --length 0:30 -j DROP
+sudo iptables -A INPUT -p udp --dport 36963 -m connlimit --connlimit-above 65 -j DROP
+sudo iptables -A INPUT -p udp -m limit --limit 10/second -j ACCEPT
+sudo iptables -A INPUT -p udp -m limit --limit-burst 50 -j DROP
+sudo iptables -A INPUT -p udp -m multiport --dports 500,1194,4500 -j DROP
+```
+
